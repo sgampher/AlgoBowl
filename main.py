@@ -1,6 +1,8 @@
 #Authors: Sara Gampher, Kathryn Bruce, Dishita Sharma
 #AlgoBowl main.py
 
+
+
 def main():
     #initialize variables
     grid = []
