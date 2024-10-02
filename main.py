@@ -1,5 +1,21 @@
 #Authors: Sara Gampher, Kathryn Bruce, Dishita Sharma
 #AlgoBowl main.py
+# Seperate Violations fn: 
+
+#Lightbulb Calculation:
+def calcLightbulb(grid, position(x,y)) :
+    violationCount = 0
+    
+    #at the grid at the position there is  a lightbulb check to see if it is violated, loop until you find grey box or lughbulb
+    lightBulbColumn = position[x]
+    lightBulbRow = position[y0000]
+    for rowNum in grid :
+        row = grid[rowNum]
+        
+        if grid[row[position[1]]].is_integer() and grid[row[position[1]]]:
+            violationCount += 1
+        if grid[row[position]]
+#Grey Cell Calculation:
 
 def main():
     #initialize variables
@@ -23,12 +39,8 @@ def main():
     #parse into output
 
 
-
-
-
-
     #call seperateVioldation on the grid to get current violation count
-    curr_violation_count = separateViolation(grid)
+    curr_violation_count = totalViolation(grid)
 
     for i in range(int(rows * cols)):
         #find highest violation - returns a tuple storing row and col of highest
@@ -38,7 +50,7 @@ def main():
         potentialNewGrid[highViol[0]][highViol[1]] = -1
 
         if(checkCoverage(potentialNewGrid)):
-            new_violation_count = separateViolation(potentialNewGrid)
+            new_violation_count = totalViolation(potentialNewGrid)
             if new_violation_count < curr_violation_count:
                 grid = potentialNewGrid
                 curr_violation_count = new_violation_count
