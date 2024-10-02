@@ -16,7 +16,9 @@ def main():
     for i in range(int(rows)):
         nextline = input().split(" ")
         grid.append(nextline)
+    
     #count violations
+    
     #loop through, remove violations, check coverage, repeat
     #parse into output
 

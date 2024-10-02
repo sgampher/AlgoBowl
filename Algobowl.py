@@ -8,11 +8,11 @@ def seperateViolations(List Grid) :
     # else calculate grey box violation
     countBoxViolations
 
-return Grid, numViolations
+    return Grid, numViolations
 
 
 # check coverage function
-def checkCoverage :
+def checkCoverage:
 # when 
 def removeMaxViolation :
 
