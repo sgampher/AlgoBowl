@@ -8,7 +8,7 @@ def calcLightbulb(grid, position(x,y)) :
     
     #at the grid at the position there is  a lightbulb check to see if it is violated, loop until you find grey box or lughbulb
     lightBulbColumn = position[x]
-    lightBulbRow = position[y0000]
+    lightBulbRow = position[y]
     for rowNum in grid :
         row = grid[rowNum]
         
