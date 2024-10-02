@@ -1,6 +1,18 @@
 #Authors: Sara Gampher, Kathryn Bruce, Dishita Sharma
 #AlgoBowl main.py
-# Seperate Violations fn: 
+
+# Total Violation fn: 
+def totalViolation(grid):
+    total = 0
+    for row in grid:
+        for col in row:
+            if grid[row][col].is_integer():
+                total += calcLightbulb(grid, (row,col))
+                
+            elif grid[row][col] != "G":
+                total += calcGreyCell(grid, (row,col))
+    
+
 
 #Lightbulb Calculation:
 def calcLightbulb(grid, position(x,y)) :
@@ -16,6 +28,7 @@ def calcLightbulb(grid, position(x,y)) :
             violationCount += 1
         if grid[row[position]]
 #Grey Cell Calculation:
+def calcGreyCell(grid, position(x,y)) :
 
 
 
