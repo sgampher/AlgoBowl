@@ -15,7 +15,21 @@ def main():
     #read in rest of given input and store in grid
     for i in range(int(rows)):
         nextline = input().split(" ")
-        grid.append(nextline)
+        addThis = []
+        for n in nextline:
+            if n == ".":
+                addThis.append(0)
+            elif n == "0":
+                addThis.append("G")
+            elif n == "1":
+                addThis.append("G1")
+            elif n == "2":
+                addThis.append("G2")
+            elif n == "3":
+                addThis.append("G3")
+            elif n == "4":
+                addThis.append("G4")
+        grid.append(addThis)
     
     #count violations
     
