@@ -2,9 +2,10 @@
 #AlgoBowl main.py
 def checkCoverage(grid):
     check = True
-        
+    for r in range(len(grid)):
+        for c in range(len(grid[r])):
+            
 
-    return check
 def totalViolations(grid):
     total = 0
     for row in range(len(grid)):
