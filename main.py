@@ -180,21 +180,21 @@ def main():
         for i in range(int(rows)):
             for j in range(int(cols)):
                 if grid[i][j] == "G0":
-                    f.write('0 ')
+                    f.write('0')
                 elif grid[i][j] == "G1":
-                    f.write('1 ')
+                    f.write('1')
                 elif grid[i][j] == "G2":
-                    f.write('2 ')
+                    f.write('2')
                 elif grid[i][j] == "G3":
-                    f.write('3 ')
+                    f.write('3')
                 elif grid[i][j] == "G4":
-                    f.write('4 ')  
+                    f.write('4')  
                 elif grid[i][j] == "X": 
-                    f.write('X ')  # Gray cell
+                    f.write('X')  # Gray cell
                 elif grid[i][j] == ".":  # Blank cell
-                    f.write('. ')  
+                    f.write('.')  
                 else:
-                    f.write('L ')  # Light bulb
+                    f.write('L')  # Light bulb
             f.write('\n')
 
 
