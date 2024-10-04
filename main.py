@@ -30,6 +30,7 @@ def calcLightbulb(grid, position(x,y)) :
 #Grey Cell Calculation:
 def calcGreyCell(grid, position(x,y)) :
 
+def checkCoverage(grid):
 
 
 def main():
