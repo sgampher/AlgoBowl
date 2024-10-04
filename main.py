@@ -21,15 +21,36 @@ def lightBulbViolations(grid, position):
     violationCount = 0
     row, col = position
 
-    # Check the row for other light bulbs
-    for c in range(len(grid[row])):
-        if c != col and grid[row][c] == "L":  # Found another light bulb in the same row
+    # Check left (move left along the row)
+    for c in range(col - 1, -1, -1):
+        if grid[row][c] == "X":  # Stop if you hit a grey cell
+            break
+        if grid[row][c] == "L":  # Found another light bulb
             violationCount += 1
-    # Check the column for other light bulbs
-    for r in range(len(grid)):
-        if r != r and grid[r][c] == "L":  # Found another light bulb in the same column
+
+    # Check right (move right along the row)
+    for c in range(col + 1, len(grid[row])):
+        if grid[row][c] == "X":  # Stop if you hit a grey cell
+            break
+        if grid[row][c] == "L":  # Found another light bulb
             violationCount += 1
+
+    # Check up (move up along the column)
+    for r in range(row - 1, -1, -1):
+        if grid[r][col] == "X":  # Stop if you hit a grey cell
+            break
+        if grid[r][col] == "L":  # Found another light bulb
+            violationCount += 1
+
+    # Check down (move down along the column)
+    for r in range(row + 1, len(grid)):
+        if grid[r][col] == "X":  # Stop if you hit a grey cell
+            break
+        if grid[r][col] == "L":  # Found another light bulb
+            violationCount += 1
+
     return violationCount
+
 
 def greyCellViolations(grid, position):
     violations = 0
@@ -81,47 +102,6 @@ def findHighestViolation(grid):
     if(highest_position):
         return highest_position
 
-def checkCoverage(grid):
-    # Check if all blank cells ('.') are illuminated by at least one light bulb
-    for row in range(len(grid)):
-        for col in range(len(grid[row])):
-            if grid[row][col] == 0:  # Blank cell
-                if not isIlluminated(grid, (row, col)):
-                    return False  # Found a blank cell that is not illuminated
-    return True  # All blank cells are illuminated
-
-def isIlluminated(grid, position):
-    row, col = position
-    # Check row and column for light bulbs
-    # Check left
-    for c in range(col - 1, -1, -1):
-        if grid[row][c] == "X":  # Blocked by a gray cell
-            break
-        if grid[row][c] == "L":  # Found a light bulb
-            return True
-
-    # Check right
-    for c in range(col + 1, len(grid[row])):
-        if grid[row][c] == "X":  # Blocked by a gray cell
-            break
-        if grid[row][c] == "L":  # Found a light bulb
-            return True
-
-    # Check up
-    for r in range(row - 1, -1, -1):
-        if grid[r][col] == "X":  # Blocked by a gray cell
-            break
-        if grid[r][col] == "L":  # Found a light bulb
-            return True
-
-    # Check down
-    for r in range(row + 1, len(grid)):
-        if grid[r][col] == "X":  # Blocked by a gray cell
-            break
-        if grid[r][col] == "L":  # Found a light bulb
-            return True
-
-    return False  # No light bulb illuminates the cell
 
 def main():
     # Initialize variables
