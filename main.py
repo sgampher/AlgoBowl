@@ -1,6 +1,10 @@
 #Authors: Sara Gampher, Kathryn Bruce, Dishita Sharma
 #AlgoBowl main.py
+def checkCoverage(grid):
+    check = True
+        
 
+    return check
 def totalViolations(grid):
     total = 0
     for row in range(len(grid)):
@@ -12,6 +16,7 @@ def totalViolations(grid):
     return total
 
 # Lightbulb Violation Calculation
+#THIS FUNCTION MIGHT HAVE GOTTEN CHANGED DURING MERGE CONFLICT RESOLVE - SRRY NEED FIX 
 def lightBulbViolations(grid, position):
     violationCount = 0
     row, col = position
@@ -20,13 +25,9 @@ def lightBulbViolations(grid, position):
     for c in range(len(grid[row])):
         if c != col and grid[row][c] == "L":  # Found another light bulb in the same row
             violationCount += 1
-
-
-def checkCoverage(grid):
-
     # Check the column for other light bulbs
     for r in range(len(grid)):
-        if r != row and grid[r][col] == "L":  # Found another light bulb in the same column
+        if r != r and grid[r][c] == "L":  # Found another light bulb in the same column
             violationCount += 1
     return violationCount
 
@@ -77,8 +78,8 @@ def findHighestViolation(grid):
                 if violations > highest_violation:
                     highest_violation = violations
                     highest_position = (row, col)
-
-    return highest_position if highest_position else (0, 0)  # Default to (0, 0) if no position found
+    if(highest_position):
+        return highest_position
 
 def checkCoverage(grid):
     # Check if all blank cells ('.') are illuminated by at least one light bulb
