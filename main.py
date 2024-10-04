@@ -2,8 +2,46 @@
 #AlgoBowl main.py
 def checkCoverage(grid):
     check = True
-    for r in range(len(grid)):
-        for c in range(len(grid[r])):
+    for row in range(len(grid)):
+        for col in range(len(grid[r])):
+            # Check left (move left along the row)
+            for c in range(col - 1, -1, -1):
+                if grid[row][c] == "L":  # Found another light bulb
+                    check =True
+                    break
+                if grid[row][c] == "X":  # Stop if you hit a grey cell
+                    check = False
+                
+
+            # Check right (move right along the row)
+            for c in range(col + 1, len(grid[row])):
+                if grid[row][c] == "L":  # Found another light bulb
+                    check =True
+                    break
+                if grid[row][c] == "X":  # Stop if you hit a grey cell
+                    check = False
+                
+
+            # Check up (move up along the column)
+            for r in range(row - 1, -1, -1):
+                if grid[r][col] == "L":  # Found another light bulb
+                    check =True
+                    break
+                if grid[r][col] == "X":  # Stop if you hit a grey cell
+                    check = False
+
+
+            # Check down (move down along the column)
+            for r in range(row + 1, len(grid)):
+                if grid[r][col] == "L":  # Found another light bulb
+                    check =True
+                    break
+                if grid[r][col] == "X":  # Stop if you hit a grey cell
+                    check = False
+                
+            if check == False:
+                return False
+    return True
             
 
 def totalViolations(grid):
@@ -140,7 +178,7 @@ def main():
     # Count violations
     curr_violation_count = totalViolations(grid)
 
-    for _ in range(rows * cols):
+    for i in range(rows * cols):
         # Find cell with the highest violation
         highViol = findHighestViolation(grid)
         
