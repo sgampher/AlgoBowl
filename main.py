@@ -125,7 +125,7 @@ def countBulbsInNeighbors(grid, position):
         c = col + c_offset
 
         if 0 <= r < len(grid) and 0 <= c < len(grid[r]):
-            if grid[r][c] == "L":  # Count the light bulbs
+            if grid[row][c].is_integer and grid[row][c] != -1:  # Count the light bulbs
                 count += 1
 
     return count
