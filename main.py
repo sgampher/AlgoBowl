@@ -54,9 +54,13 @@ def totalViolations(grid):
     for row in range(len(grid)):
         for col in range(len(grid[row])):
             if isinstance(grid[row][col], int) and grid[row][col] != -1:  # Checking if it's a light bulb (indicated by int)
-                total += lightBulbViolations(grid, (row, col))
+                temp = lightBulbViolations(grid, (row, col))
+                total += temp
+                grid[row][col] = temp
             elif not (grid[row][col].startswith("G")):  # Skip gray cells
-                total += greyCellViolations(grid, (row, col))
+                temp += greyCellViolations(grid, (row, col))
+                total += temp
+                grid[row][col] = temp
     return total
 
 # Lightbulb Violation Calculation
