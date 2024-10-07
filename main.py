@@ -1,6 +1,7 @@
 #Authors: Sara Gampher, Kathryn Bruce, Dishita Sharma
 #AlgoBowl main.py
 def checkCoverage(grid):
+    check = True
     for row in range(len(grid)):
         for col in range(len(grid[r])):
             # Check left (move left along the row)
@@ -49,7 +50,7 @@ def totalViolations(grid):
         for col in range(len(grid[row])):
             if isinstance(grid[row][col], int):  # Checking if it's a light bulb (indicated by int)
                 total += lightBulbViolations(grid, (row, col))
-            elif grid[row][col] != "G":  # Skip gray cells
+            elif not (grid[row][col].startswith("G")):  # Skip gray cells
                 total += greyCellViolations(grid, (row, col))
     return total
 
