@@ -1,42 +1,47 @@
 #Authors: Sara Gampher, Kathryn Bruce, Dishita Sharma
 #AlgoBowl main.py
+
+
+#ISSUE - THE REASON WE ARE PRINTING A BUNCH OF LIGHTBULBS IS BECAUSE WE ARENT RETURNING OUR GRID 
+# AND WE DONT PASS BY REFERENCE OR BY POINTER SO GRID IS NEVER UPDATED - FIX 
+
 def checkCoverage(grid):
     check = True
     for row in range(len(grid)):
-        for col in range(len(grid[r])):
+        for col in range(len(grid[row])):
             # Check left (move left along the row)
             for c in range(col - 1, -1, -1):
-                if grid[row][c].is_integer and grid[row][c] != -1:  # Found another light bulb
+                if isinstance(grid[row][c], int) and grid[row][c] != -1:  # Found another light bulb
                     check =True
                     break
-                if grid[row][c].startswith("G"):  # Stop if you hit a grey cell 
+                elif grid[row][c].startswith("G"):  # Stop if you hit a grey cell 
                     check = False
                 
 
             # Check right (move right along the row)
             for c in range(col + 1, len(grid[row])):
-                if grid[row][c].is_integer and grid[row][c] != -1: # Found another light bulb
+                if isinstance(grid[row][c], int)  and grid[row][c] != -1: # Found another light bulb
                     check =True
                     break
-                if grid[row][c].startswith("G"): # Stop if you hit a grey cell
+                elif grid[row][c].startswith("G"): # Stop if you hit a grey cell
                     check = False
                 
 
             # Check up (move up along the column)
             for r in range(row - 1, -1, -1):
-                if grid[row][c].is_integer and grid[row][c] != -1:  # Found another light bulb
+                if isinstance(grid[row][c], int)  and grid[row][c] != -1:  # Found another light bulb
                     check =True
                     break
-                if grid[row][c].startswith("G"):  # Stop if you hit a grey cell
+                elif grid[row][c].startswith("G"):  # Stop if you hit a grey cell
                     check = False
 
 
             # Check down (move down along the column)
             for r in range(row + 1, len(grid)):
-                if grid[row][c].is_integer and grid[row][c] != -1:  # Found another light bulb
+                if isinstance(grid[row][c], int) and grid[row][c] != -1:  # Found another light bulb
                     check =True
                     break
-                if grid[row][c].startswith("G"):  # Stop if you hit a grey cell
+                elif grid[row][c].startswith("G"):  # Stop if you hit a grey cell
                     check = False
                 
             if check == False:
@@ -48,7 +53,7 @@ def totalViolations(grid):
     total = 0
     for row in range(len(grid)):
         for col in range(len(grid[row])):
-            if isinstance(grid[row][col], int):  # Checking if it's a light bulb (indicated by int)
+            if isinstance(grid[row][col], int) and grid[row][col] != -1:  # Checking if it's a light bulb (indicated by int)
                 total += lightBulbViolations(grid, (row, col))
             elif not (grid[row][col].startswith("G")):  # Skip gray cells
                 total += greyCellViolations(grid, (row, col))
@@ -61,33 +66,33 @@ def lightBulbViolations(grid, position):
 
     # Check left (move left along the row)
     for c in range(col - 1, -1, -1):
-        if grid[row][c].is_integer and grid[row][c] != -1:  # Found another light bulb
+        if isinstance(grid[row][c], int)  and grid[row][c] != -1:  # Found another light bulb
             violationCount += 1
-        if grid[row][c].startswith("G"):  # Stop if you hit a grey cell
+        elif grid[row][c].startswith("G"):  # Stop if you hit a grey cell
             break
         
 
     # Check right (move right along the row)
     for c in range(col + 1, len(grid[row])):
-        if grid[row][c].is_integer and grid[row][c] != -1:  # Found another light bulb
+        if isinstance(grid[row][c], int)  and grid[row][c] != -1:  # Found another light bulb
             violationCount += 1
-        if grid[row][c].startswith("G"):  # Stop if you hit a grey cell
+        elif grid[row][c].startswith("G"):  # Stop if you hit a grey cell
             break
         
 
     # Check up (move up along the column)
     for r in range(row - 1, -1, -1):
-        if grid[row][c].is_integer and grid[row][c] != -1:  # Found another light bulb
+        if isinstance(grid[row][c], int)  and grid[row][c] != -1:  # Found another light bulb
             violationCount += 1
-        if grid[row][c].startswith("G"):  # Stop if you hit a grey cell
+        elif grid[row][c].startswith("G"):  # Stop if you hit a grey cell
             break
         
 
     # Check down (move down along the column)
     for r in range(row + 1, len(grid)):
-        if grid[row][c].is_integer and grid[row][c] != -1:  # Found another light bulb
+        if isinstance(grid[row][c], int)  and grid[row][c] != -1:  # Found another light bulb
             violationCount += 1
-        if grid[row][c].startswith("G"):  # Stop if you hit a grey cell
+        elif grid[row][c].startswith("G"):  # Stop if you hit a grey cell
             break
         
 
@@ -105,7 +110,7 @@ def greyCellViolations(grid, position):
 
         if 0 <= r < len(grid) and 0 <= c < len(grid[r]):
             # Check if the neighboring cell is a gray cell with a number
-            if grid[r][c].startswith("G"):  # Only consider cells starting with 'G'
+            if not(isinstance(grid[r][c], int)) and grid[r][c].startswith("G"):  # Only consider cells starting with 'G'
                 if len(grid[r][c]) > 1:  # Ensure there is a number after 'G'
                     required_bulbs = int(grid[r][c][1])
                     # Add to violations based on the number of light bulbs in neighbors
@@ -125,7 +130,7 @@ def countBulbsInNeighbors(grid, position):
         c = col + c_offset
 
         if 0 <= r < len(grid) and 0 <= c < len(grid[r]):
-            if grid[row][c].is_integer and grid[row][c] != -1:  # Count the light bulbs
+            if isinstance(grid[row][c], int) and grid[row][c] != -1:  # Count the light bulbs
                 count += 1
 
     return count
