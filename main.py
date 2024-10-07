@@ -61,31 +61,35 @@ def lightBulbViolations(grid, position):
 
     # Check left (move left along the row)
     for c in range(col - 1, -1, -1):
-        if grid[row][c].startswith("G"):  # Stop if you hit a grey cell
-            break
         if grid[row][c].is_integer and grid[row][c] != -1:  # Found another light bulb
             violationCount += 1
+        if grid[row][c].startswith("G"):  # Stop if you hit a grey cell
+            break
+        
 
     # Check right (move right along the row)
     for c in range(col + 1, len(grid[row])):
-        if grid[row][c].startswith("G"):  # Stop if you hit a grey cell
-            break
         if grid[row][c].is_integer and grid[row][c] != -1:  # Found another light bulb
             violationCount += 1
+        if grid[row][c].startswith("G"):  # Stop if you hit a grey cell
+            break
+        
 
     # Check up (move up along the column)
     for r in range(row - 1, -1, -1):
-        if grid[row][c].startswith("G"):  # Stop if you hit a grey cell
-            break
         if grid[row][c].is_integer and grid[row][c] != -1:  # Found another light bulb
             violationCount += 1
+        if grid[row][c].startswith("G"):  # Stop if you hit a grey cell
+            break
+        
 
     # Check down (move down along the column)
     for r in range(row + 1, len(grid)):
-        if grid[row][c].startswith("G"):  # Stop if you hit a grey cell
-            break
         if grid[row][c].is_integer and grid[row][c] != -1:  # Found another light bulb
             violationCount += 1
+        if grid[row][c].startswith("G"):  # Stop if you hit a grey cell
+            break
+        
 
     return violationCount
 
