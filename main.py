@@ -145,12 +145,12 @@ def findHighestViolation(grid):
 
     for row in range(len(grid)):
         for col in range(len(grid[row])):
-            if isinstance(grid[row][col], int):  # Only consider cells where a light bulb can be placed
-                violations = lightBulbViolations(grid, (row, col)) + greyCellViolations(grid, (row, col))
+            if isinstance(grid[row][col], int) and grid[row][col] != -1:  # Only consider cells where a light bulb can be placed
+                violations = lightBulbViolations(grid, (row, col)) #+ greyCellViolations(grid, (row, col))
                 if violations > highest_violation:
                     highest_violation = violations
                     highest_position = (row, col)
-    if(highest_position):
+    if(highest_position != None):
         return highest_position
 
 
@@ -193,11 +193,12 @@ def main():
     for i in range(run+1):
         # Find cell with the highest violation
         highViol = findHighestViolation(grid)
+        if(highViol!= None):
+            # Make a copy of the grid and place a light bulb in the cell with the highest violation
+            potentialNewGrid = grid  # Create a deep copy
+            print(potentialNewGrid)
+            potentialNewGrid[highViol[0]][highViol[1]] = -1  # Place a light bulb
         
-        # Make a copy of the grid and place a light bulb in the cell with the highest violation
-        potentialNewGrid = grid  # Create a deep copy
-        print(potentialNewGrid)
-        potentialNewGrid[highViol[0]][highViol[1]] = -1  # Place a light bulb
 
 
         # Check if this placement is valid
