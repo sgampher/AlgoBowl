@@ -80,7 +80,7 @@ def lightBulbViolations(grid, position):
     for c in range(col + 1, len(grid[row])):
         if isinstance(grid[row][c], int)  and grid[row][c] != -1:  # Found another light bulb
             violationCount += 1
-        elif not grid[row][c] != -1 and grid[row][c].startswith("G"):  # Stop if you hit a grey cell
+        elif not grid[row][c] == -1 and grid[row][c].startswith("G"):  # Stop if you hit a grey cell
             break
         
 
