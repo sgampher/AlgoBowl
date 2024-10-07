@@ -153,34 +153,48 @@ def findHighestViolation(grid):
 
 def main():
     # Initialize variables
+    # grid = []
+    
+    # # Read input
+    # firstline = input().split(" ")
+    # rows = int(firstline[0])
+    # cols = int(firstline[1])
+
+    # Read the file and store its contents in a list of lines
+    file = 'biginput.txt'
     grid = []
-    
-    # Read input
-    firstline = input().split(" ")
-    rows = int(firstline[0])
-    cols = int(firstline[1])
-    
-    # Read in the rest of the given input and store in grid
-    for i in range(rows):
-        nextline = input().strip()  # Read the line and remove any extra spaces
-        addThis = []
-        for n in nextline:
-            if n == ".":
-                addThis.append(0)  # Keep as a string
-            elif n == "0":
-                addThis.append("G0")
-            elif n == "1":
-                addThis.append("G1")
-            elif n == "2":
-                addThis.append("G2")
-            elif n == "3":
-                addThis.append("G3")
-            elif n == "4":
-                addThis.append("G4")
-            elif n == "X":
-                addThis.append("G")  # Gray cell
-        grid.append(addThis)
-    
+
+    with open(file, 'r') as file:
+        lines = file.readlines()
+
+        rows, cols = map(int, lines[0].strip().split()) 
+        for i in range(1, rows + 1):  
+            nextline = lines[i].strip()  
+            addThis = []
+            for n in nextline:
+                if n == ".":
+                    addThis.append(0) 
+                elif n == "0":
+                    addThis.append("G0")
+                elif n == "1":
+                    addThis.append("G1")
+                elif n == "2":
+                    addThis.append("G2")
+                elif n == "3":
+                    addThis.append("G3")
+                elif n == "4":
+                    addThis.append("G4")
+                elif n == "X":
+                    addThis.append("G")  # Gray cell
+            grid.append(addThis)
+
+    # Now grid contains the processed grid
+    # Print the grid for verification
+    for row in grid:
+        print(row)
+
+# Further processing, such as removing violations and checking coverage, can be done here.
+ 
     # Loop through, remove violations, check coverage, repeat
     
     # Count violations
