@@ -7,8 +7,8 @@
 
 def checkCoverage(grid):
     check = True
-    for row in range(len(grid)):
-        for col in range(len(grid[row])):
+    for row in range(len(grid)+1):
+        for col in range(len(grid[row])+1):
             # Check left (move left along the row)
             for c in range(col - 1, -1, -1):
                 if isinstance(grid[row][c], int) and grid[row][c] != -1:  # Found another light bulb
@@ -51,8 +51,8 @@ def checkCoverage(grid):
 
 def totalViolations(grid):
     total = 0
-    for row in range(len(grid)):
-        for col in range(len(grid[row])):
+    for row in range(len(grid)+1):
+        for col in range(len(grid[row])+1):
             if isinstance(grid[row][col], int) and grid[row][col] != -1:  # Checking if it's a light bulb (indicated by int)
                 temp = lightBulbViolations(grid, (row, col))
                 total += temp
@@ -77,7 +77,7 @@ def lightBulbViolations(grid, position):
         
 
     # Check right (move right along the row)
-    for c in range(col + 1, len(grid[row])):
+    for c in range(col + 1, len(grid[row])+1):
         if isinstance(grid[row][c], int)  and grid[row][c] != -1:  # Found another light bulb
             violationCount += 1
         elif not grid[row][c] == -1 and grid[row][c].startswith("G"):  # Stop if you hit a grey cell
@@ -93,7 +93,7 @@ def lightBulbViolations(grid, position):
         
 
     # Check down (move down along the column)
-    for r in range(row + 1, len(grid)):
+    for r in range(row + 1, len(grid)+1):
         if isinstance(grid[row][c], int)  and grid[row][c] != -1:  # Found another light bulb
             violationCount += 1
         elif not grid[row][c] == -1 and grid[row][c].startswith("G"):  # Stop if you hit a grey cell
@@ -143,8 +143,8 @@ def findHighestViolation(grid):
     highest_violation = 0
     highest_position = None
 
-    for row in range(len(grid)):
-        for col in range(len(grid[row])):
+    for row in range(len(grid)+1):
+        for col in range(len(grid[row])+1):
             if isinstance(grid[row][col], int) and grid[row][col] != -1:  # Only consider cells where a light bulb can be placed
                 violations = lightBulbViolations(grid, (row, col)) #+ greyCellViolations(grid, (row, col))
                 if violations > highest_violation:
@@ -208,10 +208,12 @@ def main():
                 grid = potentialNewGrid
                 curr_violation_count = new_violation_count
 
+
+
     # Write results to output
     with open('output.txt', 'w') as f:
         f.write(str(curr_violation_count) + '\n')  # Convert the violation count to string
-        for i in range(int(rows)):
+        for i in range(int(rows)+1):
             for j in range(int(cols)):
                 if grid[i][j] == "G0":
                     f.write('0')
