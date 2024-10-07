@@ -14,7 +14,7 @@ def checkCoverage(grid):
                 if isinstance(grid[row][c], int) and grid[row][c] != -1:  # Found another light bulb
                     check =True
                     break
-                elif grid[row][c].startswith("G"):  # Stop if you hit a grey cell 
+                elif not grid[row][c] == -1 and grid[row][c].startswith("G"):  # Stop if you hit a grey cell 
                     check = False
                 
 
@@ -32,7 +32,7 @@ def checkCoverage(grid):
                 if isinstance(grid[row][c], int)  and grid[row][c] != -1:  # Found another light bulb
                     check =True
                     break
-                elif not grid[row][c] != -1 and grid[row][c].startswith("G"):  # Stop if you hit a grey cell
+                elif not grid[row][c] == -1 and grid[row][c].startswith("G"):  # Stop if you hit a grey cell
                     check = False
 
 
@@ -41,7 +41,7 @@ def checkCoverage(grid):
                 if isinstance(grid[row][c], int) and grid[row][c] != -1:  # Found another light bulb
                     check =True
                     break
-                elif not grid[row][c] != -1 and grid[row][c].startswith("G"):  # Stop if you hit a grey cell
+                elif not grid[row][c] == -1 and grid[row][c].startswith("G"):  # Stop if you hit a grey cell
                     check = False
                 
             if check == False:
@@ -57,7 +57,7 @@ def totalViolations(grid):
                 temp = lightBulbViolations(grid, (row, col))
                 total += temp
                 grid[row][col] = temp
-            elif not (grid[row][col].startswith("G")):  # Skip gray cells
+            elif not  (grid[row][col] == -1) and not (grid[row][col].startswith("G")):  # Skip gray cells
                 temp += greyCellViolations(grid, (row, col))
                 total += temp
                 grid[row][col] = temp
@@ -72,7 +72,7 @@ def lightBulbViolations(grid, position):
     for c in range(col - 1, -1, -1):
         if isinstance(grid[row][c], int)  and grid[row][c] != -1:  # Found another light bulb
             violationCount += 1
-        elif not grid[row][c] != -1 and grid[row][c].startswith("G"):  # Stop if you hit a grey cell
+        elif not grid[row][c] == -1 and grid[row][c].startswith("G"):  # Stop if you hit a grey cell
             break
         
 
@@ -80,7 +80,7 @@ def lightBulbViolations(grid, position):
     for c in range(col + 1, len(grid[row])):
         if isinstance(grid[row][c], int)  and grid[row][c] != -1:  # Found another light bulb
             violationCount += 1
-        elif not grid[row][c] != -1 and grid[row][c].startswith("G"):  # Stop if you hit a grey cell
+        elif not grid[row][c] == -1 and grid[row][c].startswith("G"):  # Stop if you hit a grey cell
             break
         
 
@@ -88,7 +88,7 @@ def lightBulbViolations(grid, position):
     for r in range(row - 1, -1, -1):
         if isinstance(grid[row][c], int)  and grid[row][c] != -1:  # Found another light bulb
             violationCount += 1
-        elif not grid[row][c] != -1 and grid[row][c].startswith("G"):  # Stop if you hit a grey cell
+        elif not grid[row][c] == -1 and grid[row][c].startswith("G"):  # Stop if you hit a grey cell
             break
         
 
@@ -96,7 +96,7 @@ def lightBulbViolations(grid, position):
     for r in range(row + 1, len(grid)):
         if isinstance(grid[row][c], int)  and grid[row][c] != -1:  # Found another light bulb
             violationCount += 1
-        elif not grid[row][c] != -1 and grid[row][c].startswith("G"):  # Stop if you hit a grey cell
+        elif not grid[row][c] == -1 and grid[row][c].startswith("G"):  # Stop if you hit a grey cell
             break
         
 
@@ -195,10 +195,11 @@ def main():
         highViol = findHighestViolation(grid)
         
         # Make a copy of the grid and place a light bulb in the cell with the highest violation
-        potentialNewGrid = [row[:] for row in grid]  # Create a deep copy
-        print(potentialNewGrid)
-        potentialNewGrid[highViol[0]][highViol[1]] = -1  # Place a light bulb
-
+        # potentialNewGrid = [row[:] for row in grid]  # Create a deep copy
+        # print(potentialNewGrid)
+        # potentialNewGrid[highViol[0]][highViol[1]] = -1  # Place a light bulb
+        potentialNewGrid = grid
+        potentialNewGrid[highViol[0]][highViol[1]] = -1
 
         # Check if this placement is valid
         if checkCoverage(potentialNewGrid):
