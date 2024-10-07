@@ -197,8 +197,8 @@ def main():
         # Make a copy of the grid and place a light bulb in the cell with the highest violation
         potentialNewGrid = [row[:] for row in grid]  # Create a deep copy
         print(potentialNewGrid)
-        potentialNewGrid[highViol[0]][highViol[1]] = ""  # Place a light bulb
-        #SHOULDNT WE CHANGE IT -1
+        potentialNewGrid[highViol[0]][highViol[1]] = -1  # Place a light bulb
+
 
         # Check if this placement is valid
         if checkCoverage(potentialNewGrid):
