@@ -14,7 +14,7 @@ def checkCoverage(grid):
                 if isinstance(grid[row][c], int) and grid[row][c] != -1:  # Found another light bulb
                     check =True
                     break
-                elif grid[row][c].startswith("G"):  # Stop if you hit a grey cell 
+                elif not grid[row][c] == -1 and grid[row][c].startswith("G"):  # Stop if you hit a grey cell 
                     check = False
                 
 
@@ -189,13 +189,13 @@ def main():
     
     # Count violations
     curr_violation_count = totalViolations(grid)
-
-    for i in range(rows * cols):
+    run = rows * cols
+    for i in range(run+1):
         # Find cell with the highest violation
         highViol = findHighestViolation(grid)
         
         # Make a copy of the grid and place a light bulb in the cell with the highest violation
-        potentialNewGrid = [row[:] for row in grid]  # Create a deep copy
+        potentialNewGrid = grid  # Create a deep copy
         print(potentialNewGrid)
         potentialNewGrid[highViol[0]][highViol[1]] = -1  # Place a light bulb
 
@@ -229,6 +229,7 @@ def main():
                 else:
                     f.write('L')  # Light bulb
             f.write('\n')
+            #so each cell is 1 and so total violation can only be the max number of cells 
 
 
 if __name__ == '__main__':
