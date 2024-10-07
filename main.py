@@ -1,42 +1,41 @@
 #Authors: Sara Gampher, Kathryn Bruce, Dishita Sharma
 #AlgoBowl main.py
 def checkCoverage(grid):
-    check = True
     for row in range(len(grid)):
         for col in range(len(grid[r])):
             # Check left (move left along the row)
             for c in range(col - 1, -1, -1):
-                if grid[row][c] == "L":  # Found another light bulb
+                if grid[row][c].is_integer and grid[row][c] != -1:  # Found another light bulb
                     check =True
                     break
-                if grid[row][c] == "X":  # Stop if you hit a grey cell
+                if grid[row][c].startswith("G"):  # Stop if you hit a grey cell 
                     check = False
                 
 
             # Check right (move right along the row)
             for c in range(col + 1, len(grid[row])):
-                if grid[row][c] == "L":  # Found another light bulb
+                if grid[row][c].is_integer and grid[row][c] != -1: # Found another light bulb
                     check =True
                     break
-                if grid[row][c] == "X":  # Stop if you hit a grey cell
+                if grid[row][c].startswith("G"): # Stop if you hit a grey cell
                     check = False
                 
 
             # Check up (move up along the column)
             for r in range(row - 1, -1, -1):
-                if grid[r][col] == "L":  # Found another light bulb
+                if grid[row][c].is_integer and grid[row][c] != -1:  # Found another light bulb
                     check =True
                     break
-                if grid[r][col] == "X":  # Stop if you hit a grey cell
+                if grid[row][c].startswith("G"):  # Stop if you hit a grey cell
                     check = False
 
 
             # Check down (move down along the column)
             for r in range(row + 1, len(grid)):
-                if grid[r][col] == "L":  # Found another light bulb
+                if grid[row][c].is_integer and grid[row][c] != -1:  # Found another light bulb
                     check =True
                     break
-                if grid[r][col] == "X":  # Stop if you hit a grey cell
+                if grid[row][c].startswith("G"):  # Stop if you hit a grey cell
                     check = False
                 
             if check == False:
@@ -157,7 +156,7 @@ def main():
         addThis = []
         for n in nextline:
             if n == ".":
-                addThis.append(".")  # Keep as a string
+                addThis.append(0)  # Keep as a string
             elif n == "0":
                 addThis.append("G0")
             elif n == "1":
@@ -169,7 +168,7 @@ def main():
             elif n == "4":
                 addThis.append("G4")
             elif n == "X":
-                addThis.append("X")  # Gray cell
+                addThis.append("G")  # Gray cell
         grid.append(addThis)
     
    
@@ -184,7 +183,9 @@ def main():
         
         # Make a copy of the grid and place a light bulb in the cell with the highest violation
         potentialNewGrid = [row[:] for row in grid]  # Create a deep copy
-        potentialNewGrid[highViol[0]][highViol[1]] = "L"  # Place a light bulb
+        print(potentialNewGrid)
+        potentialNewGrid[highViol[0]][highViol[1]] = ""  # Place a light bulb
+        #SHOULDNT WE CHANGE IT -1
 
         # Check if this placement is valid
         if checkCoverage(potentialNewGrid):
@@ -208,9 +209,9 @@ def main():
                     f.write('3')
                 elif grid[i][j] == "G4":
                     f.write('4')  
-                elif grid[i][j] == "X": 
+                elif grid[i][j] == "G": 
                     f.write('X')  # Gray cell
-                elif grid[i][j] == ".":  # Blank cell
+                elif grid[i][j] == -1 :  # Blank cell
                     f.write('.')  
                 else:
                     f.write('L')  # Light bulb
