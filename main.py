@@ -161,7 +161,7 @@ def main():
     # cols = int(firstline[1])
 
     # Read the file and store its contents in a list of lines
-    file = 'biginput.txt'
+    file = 'input.txt'
     grid = []
 
     with open(file, 'r') as file:
