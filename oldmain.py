@@ -1,7 +1,3 @@
-#Authors: Sara Gampher, Kathryn Bruce, Dishita Sharma
-#AlgoBowl main.py
-
-
 def checkCoverage(grid):
     check = True
     for row in range(len(grid)):
@@ -145,35 +141,20 @@ def findHighestViolation(grid):
 
     for row in range(len(grid)):
         for col in range(len(grid[row])):
-            violations = 0
             if isinstance(grid[row][col], int) and grid[row][col] != -1:  # Only consider cells where a light bulb can be placed
-                violations += lightBulbViolations(grid, (row, col)) #+ greyCellViolations(grid, (row, col))#ISSUE WE WANT TO LOOK AT GREY CELL AROUND THE CELL
-            if row+1 <len(grid) and not(isinstance(grid[row+1][col], int)) and grid[row+1][col].startswith("G") and (len(grid[row+1][col])>1):
-                violations += greyCellViolations(grid, (row+1, col))
-            if row-1 >= 0 and not(isinstance(grid[row-1][col], int)) and grid[row-1][col].startswith("G") and (len(grid[row-1][col])>1):
-                violations += greyCellViolations(grid, (row-1, col))
-            if col+1 < len(grid[row]) and not(isinstance(grid[row][col+1], int)) and grid[row][col+1].startswith("G") and (len(grid[row][col+1])>1):
-                violations += greyCellViolations(grid, (row, col+1))
-            if col-1 >= 0 and not(isinstance(grid[row][col-1], int)) and grid[row][col-1].startswith("G") and (len(grid[row][col-1])>1):
-                violations += greyCellViolations(grid, (row, col-1)) 
-
-            if violations > highest_violation:
-                highest_violation = violations
-                highest_position = (row, col)
+                violations = lightBulbViolations(grid, (row, col)) #+ greyCellViolations(grid, (row, col))
+                if violations > highest_violation:
+                    highest_violation = violations
+                    highest_position = (row, col)
     if(highest_position != None):
         return highest_position
 
 
 def main():
     # Initialize variables
-    # grid = []
+    grid = []
     
-    # # Read input
-    # firstline = input().split(" ")
-    # rows = int(firstline[0])
-    # cols = int(firstline[1])
-
-    # Read the file and store its contents in a list of lines
+    # Read input
     file = 'input_group801.txt'
     grid = []
 
@@ -200,14 +181,7 @@ def main():
                 elif n == "X":
                     addThis.append("G")  # Gray cell
             grid.append(addThis)
-
-    # Now grid contains the processed grid
-    # Print the grid for verification
-    #for row in grid:
-    #    print(row)
-
-# Further processing, such as removing violations and checking coverage, can be done here.
- 
+    
     # Loop through, remove violations, check coverage, repeat
     
     # Count violations
@@ -216,29 +190,27 @@ def main():
     for i in range(run+1):
         # Find cell with the highest violation
         highViol = findHighestViolation(grid)
-        #print(highViol)
         if(highViol!= None):
             # Make a copy of the grid and place a light bulb in the cell with the highest violation
             potentialNewGrid = grid  # Create a deep copy
-            #print(potentialNewGrid)
+            print(i)
             potentialNewGrid[highViol[0]][highViol[1]] = -1  # Place a light bulb
+        
+
 
         # Check if this placement is valid
         if checkCoverage(potentialNewGrid):
             new_violation_count = totalViolations(potentialNewGrid)
-            #print(new_violation_count)
             if new_violation_count < curr_violation_count:
                 grid = potentialNewGrid
                 curr_violation_count = new_violation_count
-        #print(curr_violation_count)        
 
-    
     printgrid = grid
     for row in range(int(rows)):
         for col in range(int(cols)):
             if isinstance(printgrid[row][col], int) and  printgrid[row][col] != 0 and printgrid[row][col] != -1:
                 printgrid[row][col] = 1
-    #print(printgrid)
+    
     curr_violation_count = totalViolations(printgrid)
     
 
@@ -265,7 +237,7 @@ def main():
                 else:
                     f.write('L')  # Light bulb
             f.write('\n')
-           
+            #so each cell is 1 and so total violation can only be the max number of cells 
 
 
 if __name__ == '__main__':
