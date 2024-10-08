@@ -161,7 +161,7 @@ def main():
     # cols = int(firstline[1])
 
     # Read the file and store its contents in a list of lines
-    file = 'oldinput.txt'
+    file = 'input_group803.txt'
     grid = []
 
     with open(file, 'r') as file:
@@ -190,8 +190,8 @@ def main():
 
     # Now grid contains the processed grid
     # Print the grid for verification
-    for row in grid:
-        print(row)
+    #for row in grid:
+    #    print(row)
 
 # Further processing, such as removing violations and checking coverage, can be done here.
  
@@ -229,7 +229,7 @@ def main():
 
     
     # Write results to output
-    with open('output.txt', 'w') as f:
+    with open('output_group803.txt', 'w') as f:
         f.write(str(curr_violation_count) + '\n')  # Convert the violation count to string
         for i in range(int(rows)):
             for j in range(int(cols)):
@@ -250,7 +250,7 @@ def main():
                 else:
                     f.write('L')  # Light bulb
             f.write('\n')
-            #so each cell is 1 and so total violation can only be the max number of cells 
+           
 
 
 if __name__ == '__main__':
