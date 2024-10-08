@@ -144,9 +144,10 @@ def findHighestViolation(grid, checkCell):
     for row in range(len(grid)):
         for col in range(len(grid[row])):
             violations = 0
+            
             if isinstance(grid[row][col], int) and grid[row][col] != -1:  # Only consider cells where a light bulb can be placed
                 violations += lightBulbViolations(grid, (row, col)) #+ greyCellViolations(grid, (row, col))#ISSUE WE WANT TO LOOK AT GREY CELL AROUND THE CELL
-            if row+1 <len(grid) and not(isinstance(grid[row+1][col], int)) and grid[row+1][col].startswith("G") and (len(grid[row+1][col])>1):
+            if row+1 < len(grid) and not(isinstance(grid[row+1][col], int)) and grid[row+1][col].startswith("G") and (len(grid[row+1][col])>1):
                 violations += greyCellViolations(grid, (row+1, col))
             if row-1 >= 0 and not(isinstance(grid[row-1][col], int)) and grid[row-1][col].startswith("G") and (len(grid[row-1][col])>1):
                 violations += greyCellViolations(grid, (row-1, col))
@@ -221,12 +222,12 @@ def main():
     highViol = findHighestViolation(grid, None)
     while highViol != None and not(highViol in checkedCells):
         #print(highViol)
-        
-        checkedCells.append(highViol)
-        # Make a copy of the grid and place a light bulb in the cell with the highest violation
-        potentialNewGrid = [row[:] for row in grid]  # Create a deep copy
-        #print(potentialNewGrid)
-        potentialNewGrid[highViol[0]][highViol[1]] = -1  # Place a light bulb
+        if not (highViol in checkedCells) and highViol !=None:
+            checkedCells.append(highViol)
+            # Make a copy of the grid and place a light bulb in the cell with the highest violation
+            potentialNewGrid = [row[:] for row in grid]  # Create a deep copy
+            #print(potentialNewGrid)
+            potentialNewGrid[highViol[0]][highViol[1]] = -1  # Place a light bulb
 
         new_violation_count = totalViolations(potentialNewGrid)
         # Check if this placement is valid
@@ -255,8 +256,6 @@ def main():
                     finalTotalCount+= 1
 
     #print(printgrid)
-   
-    
 
     
     # Write results to output
