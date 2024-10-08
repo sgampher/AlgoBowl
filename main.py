@@ -13,25 +13,25 @@ def checkCoverage(grid):
                 elif not grid[row][c] == -1 and grid[row][c].startswith("G"):
                     break
                 # Check right (move right along the row)
-                for c in range(col + 1, len(grid[row])):
-                    if isinstance(grid[row][c], int)  and grid[row][c] != -1: # Found another light bulb
-                        check =True
-                    elif not grid[row][c] == -1 and grid[row][c].startswith("G"): # Stop if you hit a grey cell
-                        break
-                # Check up (move up along the column)
-                for r in range(row - 1, -1, -1):
-                    if isinstance(grid[r][col], int)  and grid[r][col] != -1:  # Found another light bulb
-                        check = True
-                    elif not grid[r][col] == -1 and grid[r][col].startswith("G"):  # Stop if you hit a grey cell
-                        break
-                # Check down (move down along the column)
-                for r in range(row + 1, len(grid)):
-                    if isinstance(grid[r][col], int) and grid[r][col] != -1:  # Found another light bulb
-                        check =True
-                    elif not grid[r][col] == -1 and grid[r][col].startswith("G"):  # Stop if you hit a grey cell
-                        break
-                if check == False:
-                    return False
+            for c in range(col + 1, len(grid[row])):
+                if isinstance(grid[row][c], int)  and grid[row][c] != -1: # Found another light bulb
+                    check =True
+                elif not grid[row][c] == -1 and grid[row][c].startswith("G"): # Stop if you hit a grey cell
+                    break
+            # Check up (move up along the column)
+            for r in range(row - 1, -1, -1):
+                if isinstance(grid[r][col], int)  and grid[r][col] != -1:  # Found another light bulb
+                    check = True
+                elif not grid[r][col] == -1 and grid[r][col].startswith("G"):  # Stop if you hit a grey cell
+                    break
+            # Check down (move down along the column)
+            for r in range(row + 1, len(grid)):
+                if isinstance(grid[r][col], int) and grid[r][col] != -1:  # Found another light bulb
+                    check =True
+                elif not grid[r][col] == -1 and grid[r][col].startswith("G"):  # Stop if you hit a grey cell
+                    break
+            if check == False:
+                return False
             
     return True
             
@@ -151,16 +151,13 @@ def findHighestViolation(grid, checkCell):
                 violations += greyCellViolations(grid, (row, col-1)) 
             
 
-            if violations > highest_violation and checkCell != None and not(highest_position in checkCell):# if doesnt work HERE
+            if violations > highest_violation and checkCell == None:
+                highest_violation = violations
+                highest_position = (row, col)  
+            elif violations> highest_violation and not((row,col) in checkCell):# if doesnt work HERE:
                 highest_violation = violations
                 highest_position = (row, col)
-            elif violations > highest_violation and checkCell == None:
-                highest_violation = violations
-                highest_position = (row, col)
-            elif violations > highest_violation and checkCell != None and highest_position in checkCell:
-                copygrid = [row[:] for row in grid]
-                copygrid[row][col] = -1
-                findHighestViolation(copygrid, checkCell)
+ 
     
     return highest_position
 
@@ -176,7 +173,7 @@ def main():
     # cols = int(firstline[1])
 
     # Read the file and store its contents in a list of lines
-    file = 'oldinput copy.txt'
+    file = 'input_group803.txt'
     grid = []
 
     with open(file, 'r') as file:
@@ -214,11 +211,10 @@ def main():
     
     # Count violations
     curr_violation_count = totalViolations(grid)
-    run = rows * cols
     checkedCells = []
     highViol = findHighestViolation(grid, None)
     while highViol != None and not(highViol in checkedCells):
-        print(highViol)
+        #print(highViol)
         
         checkedCells.append(highViol)
         # Make a copy of the grid and place a light bulb in the cell with the highest violation
@@ -230,11 +226,12 @@ def main():
         # Check if this placement is valid
         if checkCoverage(potentialNewGrid):
             #print(new_violation_count)
-            if new_violation_count <= curr_violation_count:
-                grid = [row[:] for row in potentialNewGrid]
+            if new_violation_count < curr_violation_count:
+                grid = potentialNewGrid
                 curr_violation_count = new_violation_count
-            #print(curr_violation_count) 
+        #print(curr_violation_count) 
         highViol = findHighestViolation(grid, checkedCells)
+        print(highViol)
         
               
 
@@ -256,7 +253,7 @@ def main():
 
     
     # Write results to output
-    with open('output.txt', 'w') as f:
+    with open('output_group803.txt', 'w') as f:
         f.write(str(finalTotalCount) + '\n')  # Convert the violation count to string
         for i in range(int(rows)):
             for j in range(int(cols)):
