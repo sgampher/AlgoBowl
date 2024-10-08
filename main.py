@@ -54,10 +54,13 @@ def totalViolations(grid):
                 temp = lightBulbViolations(grid, (row, col))
                 total += temp
                 grid[row][col] = temp
-            elif not  (grid[row][col] == -1) and not (grid[row][col].startswith("G")):  # Skip gray cells
-                temp += greyCellViolations(grid, (row, col))
-                total += temp
-                grid[row][col] = temp
+    #print(grid)            
+    for row in range(len(grid)):
+        for col in range(len(grid[row])):
+            if not(isinstance(grid[row][col], int)) and not (grid[row][col] == -1) and (grid[row][col].startswith("G")) and (len(grid[row][col])>1): 
+                total += greyCellViolations(grid, (row, col))
+                #total += temp
+                #grid[row][col] = temp
     return total
 
 # Lightbulb Violation Calculation
@@ -105,19 +108,19 @@ def greyCellViolations(grid, position):
     row, col = position
 
     # Check all four neighboring cells
-    for r_offset, c_offset in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
-        r = row + r_offset
-        c = col + c_offset
+    #for r_offset, c_offset in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+        #r = row + r_offset
+        #c = col + c_offset
 
-        if 0 <= r < len(grid) and 0 <= c < len(grid[r]):
+        #if 0 <= r < len(grid) and 0 <= c < len(grid[r]):
             # Check if the neighboring cell is a gray cell with a number
-            if not(isinstance(grid[r][c], int)) and grid[r][c].startswith("G"):  # Only consider cells starting with 'G'
-                if len(grid[r][c]) > 1:  # Ensure there is a number after 'G'
-                    required_bulbs = int(grid[r][c][1])
-                    # Add to violations based on the number of light bulbs in neighbors
-                    current_bulbs = countBulbsInNeighbors(grid, (r, c))
-                    if current_bulbs != required_bulbs:
-                        violations += 1
+    if not(isinstance(grid[row][col], int)) and grid[row][col].startswith("G"):  # Only consider cells starting with 'G'
+        if len(grid[row][col]) > 1:  # Ensure there is a number after 'G'
+            required_bulbs = int(grid[row][col][1])
+            # Add to violations based on the number of light bulbs in neighbors
+            current_bulbs = countBulbsInNeighbors(grid, (row, col))
+            if current_bulbs != required_bulbs:
+                violations += 1
 
     return violations
 
@@ -142,11 +145,21 @@ def findHighestViolation(grid):
 
     for row in range(len(grid)):
         for col in range(len(grid[row])):
+            violations = 0
             if isinstance(grid[row][col], int) and grid[row][col] != -1:  # Only consider cells where a light bulb can be placed
-                violations = lightBulbViolations(grid, (row, col)) #+ greyCellViolations(grid, (row, col))
-                if violations > highest_violation:
-                    highest_violation = violations
-                    highest_position = (row, col)
+                violations += lightBulbViolations(grid, (row, col)) #+ greyCellViolations(grid, (row, col))#ISSUE WE WANT TO LOOK AT GREY CELL AROUND THE CELL
+            if row+1 <len(grid) and not(isinstance(grid[row+1][col], int)) and grid[row+1][col].startswith("G") and (len(grid[row+1][col])>1):
+                violations += greyCellViolations(grid, (row+1, col))
+            if row-1 >= 0 and not(isinstance(grid[row-1][col], int)) and grid[row-1][col].startswith("G") and (len(grid[row-1][col])>1):
+                violations += greyCellViolations(grid, (row-1, col))
+            if col+1 < len(grid[row]) and not(isinstance(grid[row][col+1], int)) and grid[row][col+1].startswith("G") and (len(grid[row][col+1])>1):
+                violations += greyCellViolations(grid, (row, col+1))
+            if col-1 >= 0 and not(isinstance(grid[row][col-1], int)) and grid[row][col-1].startswith("G") and (len(grid[row][col-1])>1):
+                violations += greyCellViolations(grid, (row, col-1)) 
+
+            if violations > highest_violation:
+                highest_violation = violations
+                highest_position = (row, col)
     if(highest_position != None):
         return highest_position
 
@@ -161,7 +174,7 @@ def main():
     # cols = int(firstline[1])
 
     # Read the file and store its contents in a list of lines
-    file = 'input_group803.txt'
+    file = 'oldinput.txt'
     grid = []
 
     with open(file, 'r') as file:
@@ -203,33 +216,35 @@ def main():
     for i in range(run+1):
         # Find cell with the highest violation
         highViol = findHighestViolation(grid)
+        #print(highViol)
         if(highViol!= None):
             # Make a copy of the grid and place a light bulb in the cell with the highest violation
             potentialNewGrid = grid  # Create a deep copy
             #print(potentialNewGrid)
             potentialNewGrid[highViol[0]][highViol[1]] = -1  # Place a light bulb
-        
-
 
         # Check if this placement is valid
         if checkCoverage(potentialNewGrid):
             new_violation_count = totalViolations(potentialNewGrid)
+            #print(new_violation_count)
             if new_violation_count < curr_violation_count:
                 grid = potentialNewGrid
                 curr_violation_count = new_violation_count
+        #print(curr_violation_count)        
 
+    
     printgrid = grid
     for row in range(int(rows)):
         for col in range(int(cols)):
             if isinstance(printgrid[row][col], int) and  printgrid[row][col] != 0 and printgrid[row][col] != -1:
                 printgrid[row][col] = 1
-    
+    #print(printgrid)
     curr_violation_count = totalViolations(printgrid)
     
 
     
     # Write results to output
-    with open('output_group803.txt', 'w') as f:
+    with open('output.txt', 'w') as f:
         f.write(str(curr_violation_count) + '\n')  # Convert the violation count to string
         for i in range(int(rows)):
             for j in range(int(cols)):
