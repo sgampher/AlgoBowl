@@ -3,46 +3,36 @@
 
 
 def checkCoverage(grid):
-    check = True
     for row in range(len(grid)):
         for col in range(len(grid[row])):
+            check=False
             # Check left (move left along the row)
             for c in range(col-1, -1, -1):
                 if isinstance(grid[row][c], int) and grid[row][c] != -1:  # Found another light bulb
-                    check =True
+                    check = True
+                elif not grid[row][c] == -1 and grid[row][c].startswith("G"):
                     break
-                elif not grid[row][c] == -1 and grid[row][c].startswith("G"):  # Stop if you hit a grey cell 
-                    check = False
-                
-
-            # Check right (move right along the row)
+                # Check right (move right along the row)
             for c in range(col + 1, len(grid[row])):
                 if isinstance(grid[row][c], int)  and grid[row][c] != -1: # Found another light bulb
                     check =True
-                    break
                 elif not grid[row][c] == -1 and grid[row][c].startswith("G"): # Stop if you hit a grey cell
-                    check = False
-                
-
+                    break
             # Check up (move up along the column)
             for r in range(row - 1, -1, -1):
                 if isinstance(grid[r][col], int)  and grid[r][col] != -1:  # Found another light bulb
-                    check =True
-                    break
+                    check = True
                 elif not grid[r][col] == -1 and grid[r][col].startswith("G"):  # Stop if you hit a grey cell
-                    check = False
-
-
+                    break
             # Check down (move down along the column)
             for r in range(row + 1, len(grid)):
                 if isinstance(grid[r][col], int) and grid[r][col] != -1:  # Found another light bulb
                     check =True
-                    break
                 elif not grid[r][col] == -1 and grid[r][col].startswith("G"):  # Stop if you hit a grey cell
-                    check = False
-                
+                    break
             if check == False:
                 return False
+            
     return True
             
 
@@ -124,7 +114,7 @@ def greyCellViolations(grid, position):
             # Add to violations based on the number of light bulbs in neighbors
             current_bulbs = countBulbsInNeighbors(grid, (row, col))
             if current_bulbs != required_bulbs:
-                violations += 1
+                violations = 1
 
     return violations
 
@@ -222,7 +212,6 @@ def main():
     
     # Count violations
     curr_violation_count = totalViolations(grid)
-    run = rows * cols
     checkedCells = []
     highViol = findHighestViolation(grid, None)
     while highViol != None and not(highViol in checkedCells):
