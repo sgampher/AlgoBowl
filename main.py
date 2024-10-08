@@ -55,11 +55,14 @@ def totalViolations(grid):
                 
                 total += temp
                 grid[row][col] = temp
+
+            #elif not (grid[row][col] == -1) and (grid[row][col].startswith("G")) and (len(grid[row][col])>1): 
+            #    total += greyCellViolations(grid, (row, col))
     #print(grid)            
     for row in range(len(grid)):
-        for col in range(len(grid[row])):
-            if not(isinstance(grid[row][col], int)) and not (grid[row][col] == -1) and (grid[row][col].startswith("G")) and (len(grid[row][col])>1): 
-                total += greyCellViolations(grid, (row, col))
+            for col in range(len(grid[row])):
+                if not(isinstance(grid[row][col], int)) and not (grid[row][col] == -1) and (grid[row][col].startswith("G")) and (len(grid[row][col])>1): 
+                   total += greyCellViolations(grid, (row, col))
                 #total += temp
                 #grid[row][col] = temp
     return total
@@ -70,7 +73,7 @@ def lightBulbViolations(grid, position):
     row, col = position
 
     # Check left (move left along the row)
-    for c in range(col - 1, -1, -1):
+    for c in range(col, -1, -1):
         if isinstance(grid[row][c], int)  and grid[row][c] != -1:  # Found another light bulb
             violationCount += 1
         elif not grid[row][c] == -1 and grid[row][c].startswith("G"):  # Stop if you hit a grey cell
@@ -78,7 +81,7 @@ def lightBulbViolations(grid, position):
         
 
     # Check right (move right along the row)
-    for c in range(col + 1, len(grid[row])):
+    for c in range(col, len(grid[row])):
         if isinstance(grid[row][c], int)  and grid[row][c] != -1:  # Found another light bulb
             violationCount += 1
         elif not grid[row][c] == -1 and grid[row][c].startswith("G"):  # Stop if you hit a grey cell
@@ -86,7 +89,7 @@ def lightBulbViolations(grid, position):
         
 
     # Check up (move up along the column)
-    for r in range(row - 1, -1, -1):
+    for r in range(row, -1, -1):
         if isinstance(grid[r][col], int)  and grid[r][col] != -1:  # Found another light bulb
             violationCount += 1
         elif not grid[r][col] == -1 and grid[r][col].startswith("G"):  # Stop if you hit a grey cell
@@ -94,7 +97,7 @@ def lightBulbViolations(grid, position):
         
 
     # Check down (move down along the column)
-    for r in range(row + 1, len(grid)):
+    for r in range(row, len(grid)):
         if isinstance(grid[r][col], int)  and grid[r][col] != -1:  # Found another light bulb
             violationCount += 1
         elif not grid[r][col] == -1 and grid[r][col].startswith("G"):  # Stop if you hit a grey cell
@@ -128,8 +131,7 @@ def greyCellViolations(grid, position):
 def countBulbsInNeighbors(grid, position):
     count = 0
     row, col = position
-
-    # Check all four neighboring cells
+    #Check all four neighboring cells
     for r_offset, c_offset in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
         r = row + r_offset
         c = col + c_offset
