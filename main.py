@@ -251,8 +251,8 @@ def main():
                 printgrid[row][col] = 1
                 finalTotalCount+= 1
             if not isinstance(printgrid[row][col], int) and grid[row][col].startswith("G") and (len(grid[row][col])>1):
-                temp = greyCellViolations(printgrid, (row,col))
-                if temp >1:
+                temp = greyCellViolations(printgrid, (row,col)) 
+                if temp > 0:# ADD ONE TO THE COUNT IF GREY CELL VIOLATION IS A NUMBER BASICALLY 
                     finalTotalCount+= 1
 
     #print(printgrid)
