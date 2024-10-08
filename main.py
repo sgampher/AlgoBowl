@@ -68,7 +68,7 @@ def lightBulbViolations(grid, position):
     row, col = position
 
     # Check left (move left along the row)
-    for c in range(col, -1, -1):
+    for c in range(col-1, -1, -1):
         if isinstance(grid[row][c], int)  and grid[row][c] != -1:  # Found another light bulb
             violationCount += 1
         elif not grid[row][c] == -1 and grid[row][c].startswith("G"):  # Stop if you hit a grey cell
@@ -76,7 +76,7 @@ def lightBulbViolations(grid, position):
         
 
     # Check right (move right along the row)
-    for c in range(col, len(grid[row])):
+    for c in range(col+1, len(grid[row])):
         if isinstance(grid[row][c], int)  and grid[row][c] != -1:  # Found another light bulb
             violationCount += 1
         elif not grid[row][c] == -1 and grid[row][c].startswith("G"):  # Stop if you hit a grey cell
@@ -84,7 +84,7 @@ def lightBulbViolations(grid, position):
         
 
     # Check up (move up along the column)
-    for r in range(row, -1, -1):
+    for r in range(row-1, -1, -1):
         if isinstance(grid[r][col], int)  and grid[r][col] != -1:  # Found another light bulb
             violationCount += 1
         elif not grid[r][col] == -1 and grid[r][col].startswith("G"):  # Stop if you hit a grey cell
@@ -92,7 +92,7 @@ def lightBulbViolations(grid, position):
         
 
     # Check down (move down along the column)
-    for r in range(row, len(grid)):
+    for r in range(row+1, len(grid)):
         if isinstance(grid[r][col], int)  and grid[r][col] != -1:  # Found another light bulb
             violationCount += 1
         elif not grid[r][col] == -1 and grid[r][col].startswith("G"):  # Stop if you hit a grey cell
@@ -179,7 +179,7 @@ def main():
     # cols = int(firstline[1])
 
     # Read the file and store its contents in a list of lines
-    file = 'input_group810.txt'
+    file = 'oldinput copy.txt'
     grid = []
 
     with open(file, 'r') as file:
@@ -234,32 +234,34 @@ def main():
         if checkCoverage(potentialNewGrid):
             # print("go")
             if new_violation_count <= curr_violation_count:
-                grid = potentialNewGrid
+                grid = [row[:] for row in potentialNewGrid]
                 curr_violation_count = new_violation_count
         #print(curr_violation_count) 
         highViol = findHighestViolation(grid, checkedCells)
         count = count+1
-        print(count)
+        #print(count)
         
               
 
     finalTotalCount = 0
-    printgrid = grid
+    printgrid = [row[:] for row in grid]
+    print(printgrid)
     for row in range(int(rows)):
         for col in range(int(cols)):
-            if isinstance(printgrid[row][col], int) and  printgrid[row][col] >0:
-                printgrid[row][col] = 1
+            if isinstance(printgrid[row][col], int) and  printgrid[row][col] > 0:
+                #printgrid[row][col] = 1
                 finalTotalCount+= 1
+                print(finalTotalCount)
             if not isinstance(printgrid[row][col], int) and grid[row][col].startswith("G") and (len(grid[row][col])>1):
                 temp = greyCellViolations(printgrid, (row,col)) 
                 if temp > 0:# ADD ONE TO THE COUNT IF GREY CELL VIOLATION IS A NUMBER BASICALLY 
-                    finalTotalCount+= 1
+                    finalTotalCount+= 1 
 
     #print(printgrid)
 
     
     # Write results to output
-    with open('output_group810.txt', 'w') as f:
+    with open('output.txt', 'w') as f:
         f.write(str(finalTotalCount) + '\n')  # Convert the violation count to string
         for i in range(int(rows)):
             for j in range(int(cols)):
