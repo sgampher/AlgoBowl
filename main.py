@@ -161,7 +161,7 @@ def main():
     # cols = int(firstline[1])
 
     # Read the file and store its contents in a list of lines
-    file = 'input.txt'
+    file = 'oldinput.txt'
     grid = []
 
     with open(file, 'r') as file:
@@ -206,7 +206,7 @@ def main():
         if(highViol!= None):
             # Make a copy of the grid and place a light bulb in the cell with the highest violation
             potentialNewGrid = grid  # Create a deep copy
-            print(potentialNewGrid)
+            #print(potentialNewGrid)
             potentialNewGrid[highViol[0]][highViol[1]] = -1  # Place a light bulb
         
 
