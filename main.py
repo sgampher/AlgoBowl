@@ -5,36 +5,38 @@
 def checkCoverage(grid):
     for row in range(len(grid)):
         for col in range(len(grid[row])):
-            check=False
-            # Check left (move left along the row)
-            for c in range(col-1, -1, -1):
-                if isinstance(grid[row][c], int) and grid[row][c] != -1:  # Found another light bulb
-                    check = True
-                elif not grid[row][c] == -1 and grid[row][c].startswith("G"):
-                    break
-                # Check right (move right along the row)
-            if (check == False):
-                for c in range(col + 1, len(grid[row])):
-                    if isinstance(grid[row][c], int)  and grid[row][c] != -1: # Found another light bulb
-                        check =True
-                    elif not grid[row][c] == -1 and grid[row][c].startswith("G"): # Stop if you hit a grey cell
-                        break
-                # Check up (move up along the column)
-            if (check == False):
-                for r in range(row - 1, -1, -1):
-                    if isinstance(grid[r][col], int)  and grid[r][col] != -1:  # Found another light bulb
+            if isinstance(grid[row][col], int):
+                check=False
+                # Check left (move left along the row)
+                for c in range(col, -1, -1):
+                    if isinstance(grid[row][c], int) and grid[row][c] != -1:  # Found another light bulb
                         check = True
-                    elif not grid[r][col] == -1 and grid[r][col].startswith("G"):  # Stop if you hit a grey cell
+                    elif not grid[row][c] == -1 and grid[row][c].startswith("G"):
                         break
-            if (check == False):
-                # Check down (move down along the column)
-                for r in range(row + 1, len(grid)):
-                    if isinstance(grid[r][col], int) and grid[r][col] != -1:  # Found another light bulb
-                        check =True
-                    elif not grid[r][col] == -1 and grid[r][col].startswith("G"):  # Stop if you hit a grey cell
-                        break
-            if check == False:
-                return False
+                    # Check right (move right along the row)
+                if (check == False):
+                    for c in range(col, len(grid[row])):
+                        if isinstance(grid[row][c], int)  and grid[row][c] != -1: # Found another light bulb
+                            check =True
+                        elif not grid[row][c] == -1 and grid[row][c].startswith("G"): # Stop if you hit a grey cell
+                            break
+                    # Check up (move up along the column)
+                if (check == False):
+                    for r in range(row, -1, -1):
+                        if isinstance(grid[r][col], int)  and grid[r][col] != -1:  # Found another light bulb
+                            check = True
+                        elif not grid[r][col] == -1 and grid[r][col].startswith("G"):  # Stop if you hit a grey cell
+                            break
+                if (check == False):
+                    # Check down (move down along the column)
+                    for r in range(row, len(grid)):
+                        if isinstance(grid[r][col], int) and grid[r][col] != -1:  # Found another light bulb
+                            check =True
+                        elif not grid[r][col] == -1 and grid[r][col].startswith("G"):  # Stop if you hit a grey cell
+                            break
+                if check == False:
+                    return False
+            
             
     return True
             
@@ -176,7 +178,7 @@ def main():
     # cols = int(firstline[1])
 
     # Read the file and store its contents in a list of lines
-    file = 'input_group813.txt'
+    file = 'input_group801.txt'
     grid = []
 
     with open(file, 'r') as file:
@@ -229,7 +231,7 @@ def main():
         new_violation_count = totalViolations(potentialNewGrid)
         # Check if this placement is valid
         if checkCoverage(potentialNewGrid):
-            print("go")
+            # print("go")
             if new_violation_count <= curr_violation_count:
                 grid = potentialNewGrid
                 curr_violation_count = new_violation_count
@@ -258,7 +260,7 @@ def main():
 
     
     # Write results to output
-    with open('output_group813.txt', 'w') as f:
+    with open('output_group801.txt', 'w') as f:
         f.write(str(finalTotalCount) + '\n')  # Convert the violation count to string
         for i in range(int(rows)):
             for j in range(int(cols)):
