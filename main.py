@@ -179,7 +179,7 @@ def main():
     # cols = int(firstline[1])
 
     # Read the file and store its contents in a list of lines
-    file = 'oldinput copy.txt'
+    file = 'input_group801.txt'
     grid = []
 
     with open(file, 'r') as file:
@@ -261,7 +261,7 @@ def main():
 
     
     # Write results to output
-    with open('output.txt', 'w') as f:
+    with open('output_group801.txt', 'w') as f:
         f.write(str(finalTotalCount) + '\n')  # Convert the violation count to string
         for i in range(int(rows)):
             for j in range(int(cols)):
