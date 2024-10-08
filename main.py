@@ -7,7 +7,7 @@ def checkCoverage(grid):
     for row in range(len(grid)):
         for col in range(len(grid[row])):
             # Check left (move left along the row)
-            for c in range(col - 1, -1, -1):
+            for c in range(col-1, -1, -1):
                 if isinstance(grid[row][c], int) and grid[row][c] != -1:  # Found another light bulb
                     check =True
                     break
@@ -52,6 +52,7 @@ def totalViolations(grid):
         for col in range(len(grid[row])):
             if isinstance(grid[row][col], int) and grid[row][col] != -1:  # Checking if it's a light bulb (indicated by int)
                 temp = lightBulbViolations(grid, (row, col))
+                
                 total += temp
                 grid[row][col] = temp
     #print(grid)            
@@ -174,7 +175,7 @@ def main():
     # cols = int(firstline[1])
 
     # Read the file and store its contents in a list of lines
-    file = 'oldinput.txt'
+    file = 'oldinput copy.txt'
     grid = []
 
     with open(file, 'r') as file:
@@ -213,39 +214,46 @@ def main():
     # Count violations
     curr_violation_count = totalViolations(grid)
     run = rows * cols
-    for i in range(run+1):
-        # Find cell with the highest violation
+    for i in range(run):
         highViol = findHighestViolation(grid)
-        #print(highViol)
+        # Make a copy of the grid and place a light bulb in the cell with the highest violation
         if(highViol!= None):
-            # Make a copy of the grid and place a light bulb in the cell with the highest violation
-            potentialNewGrid = grid  # Create a deep copy
+            potentialNewGrid = [row[:] for row in grid]  # Create a deep copy
             #print(potentialNewGrid)
             potentialNewGrid[highViol[0]][highViol[1]] = -1  # Place a light bulb
 
+        new_violation_count = totalViolations(potentialNewGrid)
         # Check if this placement is valid
         if checkCoverage(potentialNewGrid):
-            new_violation_count = totalViolations(potentialNewGrid)
             #print(new_violation_count)
             if new_violation_count < curr_violation_count:
                 grid = potentialNewGrid
                 curr_violation_count = new_violation_count
-        #print(curr_violation_count)        
+        #print(curr_violation_count) 
 
-    
+        
+              
+
+    finalTotalCount = 0
     printgrid = grid
     for row in range(int(rows)):
         for col in range(int(cols)):
-            if isinstance(printgrid[row][col], int) and  printgrid[row][col] != 0 and printgrid[row][col] != -1:
+            if isinstance(printgrid[row][col], int) and  printgrid[row][col] >0:
                 printgrid[row][col] = 1
+                finalTotalCount+= 1
+            if not isinstance(printgrid[row][col], int) and grid[row][col].startswith("G") and (len(grid[row][col])>1):
+                temp = greyCellViolations(printgrid, (row,col))
+                if temp >1:
+                    finalTotalCount+= 1
+
     #print(printgrid)
-    curr_violation_count = totalViolations(printgrid)
+   
     
 
     
     # Write results to output
     with open('output.txt', 'w') as f:
-        f.write(str(curr_violation_count) + '\n')  # Convert the violation count to string
+        f.write(str(finalTotalCount) + '\n')  # Convert the violation count to string
         for i in range(int(rows)):
             for j in range(int(cols)):
                 if printgrid[i][j] == "G0":
