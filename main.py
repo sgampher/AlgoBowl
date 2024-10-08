@@ -216,22 +216,25 @@ def main():
     # Count violations
     curr_violation_count = totalViolations(grid)
     run = rows * cols
+    checkedCells = []
     for i in range(run):
         highViol = findHighestViolation(grid)
-        # Make a copy of the grid and place a light bulb in the cell with the highest violation
-        if(highViol!= None):
-            potentialNewGrid = [row[:] for row in grid]  # Create a deep copy
-            #print(potentialNewGrid)
-            potentialNewGrid[highViol[0]][highViol[1]] = -1  # Place a light bulb
+        if highViol in checkedCells:
+            checkedCells.append(highViol)
+            # Make a copy of the grid and place a light bulb in the cell with the highest violation
+            if(highViol!= None):
+                potentialNewGrid = [row[:] for row in grid]  # Create a deep copy
+                #print(potentialNewGrid)
+                potentialNewGrid[highViol[0]][highViol[1]] = -1  # Place a light bulb
 
-        new_violation_count = totalViolations(potentialNewGrid)
-        # Check if this placement is valid
-        if checkCoverage(potentialNewGrid):
-            #print(new_violation_count)
-            if new_violation_count < curr_violation_count:
-                grid = potentialNewGrid
-                curr_violation_count = new_violation_count
-        #print(curr_violation_count) 
+            new_violation_count = totalViolations(potentialNewGrid)
+            # Check if this placement is valid
+            if checkCoverage(potentialNewGrid):
+                #print(new_violation_count)
+                if new_violation_count < curr_violation_count:
+                    grid = potentialNewGrid
+                    curr_violation_count = new_violation_count
+            #print(curr_violation_count) 
 
         
               
