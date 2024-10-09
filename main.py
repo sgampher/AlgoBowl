@@ -137,7 +137,7 @@ def countBulbsInNeighbors(grid, position):
 
     return count
 
-def findHighestViolation(grid, checkCell):
+def findHighestViolation(grid, checkCell): #IS THIS RETURNING GREY CELLS??
     highest_violation = 0
     highest_position = None
 
@@ -156,13 +156,13 @@ def findHighestViolation(grid, checkCell):
             if col-1 >= 0 and not(isinstance(grid[row][col-1], int)) and grid[row][col-1].startswith("G") and (len(grid[row][col-1])>1):
                 violations += greyCellViolations(grid, (row, col-1)) 
             
-
-            if violations > highest_violation and checkCell == None:
-                highest_violation = violations
-                highest_position = (row, col)  
-            elif violations> highest_violation and not((row,col) in checkCell):# if doesnt work HERE:
-                highest_violation = violations
-                highest_position = (row, col)
+            if isinstance(grid[row][col], int) and grid[row][col] != -1:
+                if violations > highest_violation and checkCell == None:
+                    highest_violation = violations
+                    highest_position = (row, col)  
+                elif violations> highest_violation and not((row,col) in checkCell):# if doesnt work HERE:
+                    highest_violation = violations
+                    highest_position = (row, col)
  
     
     return highest_position
@@ -227,7 +227,7 @@ def main():
             # Make a copy of the grid and place a light bulb in the cell with the highest violation
             potentialNewGrid = [row[:] for row in grid]  # Create a deep copy
             #print(potentialNewGrid)
-            potentialNewGrid[highViol[0]][highViol[1]] = -1  # Place a light bulb
+            potentialNewGrid[highViol[0]][highViol[1]] = -1  # Place a light bulb 
 
         new_violation_count = totalViolations(potentialNewGrid)
         # Check if this placement is valid
