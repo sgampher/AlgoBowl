@@ -179,7 +179,7 @@ def main():
     # cols = int(firstline[1])
 
     # Read the file and store its contents in a list of lines
-    file = 'input_group813.txt'
+    file = 'input_group817.txt'
     grid = []
 
     with open(file, 'r') as file:
@@ -239,7 +239,7 @@ def main():
         #print(curr_violation_count) 
         highViol = findHighestViolation(grid, checkedCells)
         count = count+1
-        #print(count)
+        print(count)
         
               
 
@@ -261,7 +261,7 @@ def main():
 
     
     # Write results to output
-    with open('output_group813.txt', 'w') as f:
+    with open('output_group817.txt', 'w') as f:
         f.write(str(finalTotalCount) + '\n')  # Convert the violation count to string
         for i in range(int(rows)):
             for j in range(int(cols)):
