@@ -179,7 +179,7 @@ def main():
     # cols = int(firstline[1])
 
     # Read the file and store its contents in a list of lines
-    file = 'input_group817.txt'
+    file = 'input_group816.txt'
     grid = []
 
     with open(file, 'r') as file:
@@ -244,16 +244,14 @@ def main():
               
 
     finalTotalCount = 0
-    printgrid = [row[:] for row in grid]
-    print(printgrid)
     for row in range(int(rows)):
         for col in range(int(cols)):
-            if isinstance(printgrid[row][col], int) and  printgrid[row][col] > 0:
-                #printgrid[row][col] = 1
+            if isinstance(grid[row][col], int) and  grid[row][col] > 0:
+
                 finalTotalCount+= 1
                 print(finalTotalCount)
-            if not isinstance(printgrid[row][col], int) and grid[row][col].startswith("G") and (len(grid[row][col])>1):
-                temp = greyCellViolations(printgrid, (row,col)) 
+            if not isinstance(grid[row][col], int) and grid[row][col].startswith("G") and (len(grid[row][col])>1):
+                temp = greyCellViolations(grid, (row,col)) 
                 if temp > 0:# ADD ONE TO THE COUNT IF GREY CELL VIOLATION IS A NUMBER BASICALLY 
                     finalTotalCount+= 1 
 
@@ -261,23 +259,23 @@ def main():
 
     
     # Write results to output
-    with open('output_group817.txt', 'w') as f:
+    with open('output_group816.txt', 'w') as f:
         f.write(str(finalTotalCount) + '\n')  # Convert the violation count to string
         for i in range(int(rows)):
             for j in range(int(cols)):
-                if printgrid[i][j] == "G0":
+                if grid[i][j] == "G0":
                     f.write('0')
-                elif printgrid[i][j] == "G1":
+                elif grid[i][j] == "G1":
                     f.write('1')
-                elif printgrid[i][j] == "G2":
+                elif grid[i][j] == "G2":
                     f.write('2')
-                elif printgrid[i][j] == "G3":
+                elif grid[i][j] == "G3":
                     f.write('3')
-                elif printgrid[i][j] == "G4":
+                elif grid[i][j] == "G4":
                     f.write('4')  
-                elif printgrid[i][j] == "G": 
+                elif grid[i][j] == "G": 
                     f.write('X')  # Gray cell
-                elif printgrid[i][j] == -1 :  # Blank cell
+                elif grid[i][j] == -1 :  # Blank cell
                     f.write('.')  
                 else:
                     f.write('L')  # Light bulb
