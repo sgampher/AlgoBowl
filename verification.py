@@ -137,36 +137,6 @@ def countBulbsInNeighbors(grid, position):
 
     return count
 
-def findHighestViolation(grid, checkCell): #IS THIS RETURNING GREY CELLS??
-    highest_violation = 0
-    highest_position = None
-
-    for row in range(len(grid)):
-        for col in range(len(grid[row])):
-            violations = 0
-            
-            if isinstance(grid[row][col], int) and grid[row][col] != -1:  # Only consider cells where a light bulb can be placed
-                violations += lightBulbViolations(grid, (row, col)) #+ greyCellViolations(grid, (row, col))#ISSUE WE WANT TO LOOK AT GREY CELL AROUND THE CELL
-            if row+1 < len(grid) and not(isinstance(grid[row+1][col], int)) and grid[row+1][col].startswith("G") and (len(grid[row+1][col])>1):
-                violations += greyCellViolations(grid, (row+1, col))
-            if row-1 >= 0 and not(isinstance(grid[row-1][col], int)) and grid[row-1][col].startswith("G") and (len(grid[row-1][col])>1):
-                violations += greyCellViolations(grid, (row-1, col))
-            if col+1 < len(grid[row]) and not(isinstance(grid[row][col+1], int)) and grid[row][col+1].startswith("G") and (len(grid[row][col+1])>1):
-                violations += greyCellViolations(grid, (row, col+1))
-            if col-1 >= 0 and not(isinstance(grid[row][col-1], int)) and grid[row][col-1].startswith("G") and (len(grid[row][col-1])>1):
-                violations += greyCellViolations(grid, (row, col-1)) 
-            
-            if isinstance(grid[row][col], int) and grid[row][col] != -1:
-                if violations >= highest_violation and checkCell == None:
-                    highest_violation = violations
-                    highest_position = (row, col)  
-                elif violations >= highest_violation and not((row,col) in checkCell):# if doesnt work HERE:
-                    highest_violation = violations
-                    highest_position = (row, col)
- 
-    
-    return highest_position
-
 
 
 def main():
@@ -179,19 +149,22 @@ def main():
     # cols = int(firstline[1])
 
     # Read the file and store its contents in a list of lines
-    file = 'input_group807.txt'
+    file = 'input_group864.txt'
     grid = []
 
     with open(file, 'r') as file:
         lines = file.readlines()
 
-        rows, cols = map(int, lines[0].strip().split()) 
+        theirViol = int(lines[0].strip().split()) 
+        rows = 315
         for i in range(1, rows + 1):  
             nextline = lines[i].strip()  
             addThis = []
             for n in nextline:
                 if n == ".":
-                    addThis.append(0) 
+                    addThis.append(-1) 
+                if n == "L":
+                    addThis.append(1) 
                 elif n == "0":
                     addThis.append("G0")
                 elif n == "1":
@@ -216,70 +189,25 @@ def main():
     # Loop through, remove violations, check coverage, repeat
     
     # Count violations
-    curr_violation_count = totalViolations(grid)
-    checkedCells = []
-    count = 0
-    highViol = findHighestViolation(grid, None)
-    i=0
-    while i <2000:
-        #print(highViol)
-        if not (highViol in checkedCells) and highViol !=None:
-            checkedCells.append(highViol)
-            # Make a copy of the grid and place a light bulb in the cell with the highest violation
-            potentialNewGrid = [row[:] for row in grid]  # Create a deep copy
-            #print(potentialNewGrid)
-            potentialNewGrid[highViol[0]][highViol[1]] = -1  # Place a light bulb 
-            new_violation_count = totalViolations(potentialNewGrid)
-            # Check if this placement is valid
-            if checkCoverage(potentialNewGrid):
-                # print("go")
-                if new_violation_count <= curr_violation_count:
-                    grid = [row[:] for row in potentialNewGrid]
-                    curr_violation_count = new_violation_count
-            #print(curr_violation_count) 
-            highViol = findHighestViolation(grid, checkedCells)
-            count = count+1
-            print(count)
-            i+=1
-        
-              
+    print(grid)
+    if(checkCoverage(grid)):
+        totalViolations(grid)
+        finalTotalCount = 0
+        for row in range(int(rows)):
+            for col in range(int(cols)):
+                if isinstance(grid[row][col], int) and  grid[row][col] > 0:
+                    finalTotalCount+= 1
+                    print(finalTotalCount)
+                if not isinstance(grid[row][col], int) and grid[row][col].startswith("G") and (len(grid[row][col])>1):
+                    temp = greyCellViolations(grid, (row,col)) 
+                    if temp > 0:# ADD ONE TO THE COUNT IF GREY CELL VIOLATION IS A NUMBER BASICALLY 
+                        finalTotalCount+= 1 
+        if(finalTotalCount == theirViol):
+            print(True)
 
-    finalTotalCount = 0
-    for row in range(int(rows)):
-        for col in range(int(cols)):
-            if isinstance(grid[row][col], int) and  grid[row][col] > 0:
-                finalTotalCount+= 1
-                print(finalTotalCount)
-            if not isinstance(grid[row][col], int) and grid[row][col].startswith("G") and (len(grid[row][col])>1):
-                temp = greyCellViolations(grid, (row,col)) 
-                if temp > 0:# ADD ONE TO THE COUNT IF GREY CELL VIOLATION IS A NUMBER BASICALLY 
-                    finalTotalCount+= 1 
-
-    #print(printgrid)
 
     
-    # Write results to output
-    with open('output_group807.txt', 'w') as f:
-        f.write(str(finalTotalCount) + '\n')  # Convert the violation count to string
-        for i in range(int(rows)):
-            for j in range(int(cols)):
-                if grid[i][j] == "G0":
-                    f.write('0')
-                elif grid[i][j] == "G1":
-                    f.write('1')
-                elif grid[i][j] == "G2":
-                    f.write('2')
-                elif grid[i][j] == "G3":
-                    f.write('3')
-                elif grid[i][j] == "G4":
-                    f.write('4')  
-                elif grid[i][j] == "G": 
-                    f.write('X')  # Gray cell
-                elif grid[i][j] == -1 :  # Blank cell
-                    f.write('.')  
-                else:
-                    f.write('L')  # Light bulb
-            f.write('\n')
+
            
 
 
