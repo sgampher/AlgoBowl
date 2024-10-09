@@ -157,10 +157,10 @@ def findHighestViolation(grid, checkCell): #IS THIS RETURNING GREY CELLS??
                 violations += greyCellViolations(grid, (row, col-1)) 
             
             if isinstance(grid[row][col], int) and grid[row][col] != -1:
-                if violations > highest_violation and checkCell == None:
+                if violations >= highest_violation and checkCell == None:
                     highest_violation = violations
                     highest_position = (row, col)  
-                elif violations> highest_violation and not((row,col) in checkCell):# if doesnt work HERE:
+                elif violations >= highest_violation and not((row,col) in checkCell):# if doesnt work HERE:
                     highest_violation = violations
                     highest_position = (row, col)
  
@@ -179,7 +179,7 @@ def main():
     # cols = int(firstline[1])
 
     # Read the file and store its contents in a list of lines
-    file = 'input_group801.txt'
+    file = 'input_group813.txt'
     grid = []
 
     with open(file, 'r') as file:
@@ -261,7 +261,7 @@ def main():
 
     
     # Write results to output
-    with open('output_group801.txt', 'w') as f:
+    with open('output_group813.txt', 'w') as f:
         f.write(str(finalTotalCount) + '\n')  # Convert the violation count to string
         for i in range(int(rows)):
             for j in range(int(cols)):
@@ -273,7 +273,7 @@ def main():
                     f.write('2')
                 elif printgrid[i][j] == "G3":
                     f.write('3')
-                elif grid[i][j] == "G4":
+                elif printgrid[i][j] == "G4":
                     f.write('4')  
                 elif printgrid[i][j] == "G": 
                     f.write('X')  # Gray cell
