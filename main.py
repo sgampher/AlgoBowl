@@ -179,7 +179,7 @@ def main():
     # cols = int(firstline[1])
 
     # Read the file and store its contents in a list of lines
-    file = 'input_group816.txt'
+    file = 'input_group819.txt'
     grid = []
 
     with open(file, 'r') as file:
@@ -220,7 +220,7 @@ def main():
     checkedCells = []
     count = 0
     highViol = findHighestViolation(grid, None)
-    while highViol != None and not(highViol in checkedCells):
+    while i <1000:
         #print(highViol)
         if not (highViol in checkedCells) and highViol !=None:
             checkedCells.append(highViol)
@@ -228,18 +228,18 @@ def main():
             potentialNewGrid = [row[:] for row in grid]  # Create a deep copy
             #print(potentialNewGrid)
             potentialNewGrid[highViol[0]][highViol[1]] = -1  # Place a light bulb 
-
-        new_violation_count = totalViolations(potentialNewGrid)
-        # Check if this placement is valid
-        if checkCoverage(potentialNewGrid):
-            # print("go")
-            if new_violation_count <= curr_violation_count:
-                grid = [row[:] for row in potentialNewGrid]
-                curr_violation_count = new_violation_count
-        #print(curr_violation_count) 
-        highViol = findHighestViolation(grid, checkedCells)
-        count = count+1
-        print(count)
+            new_violation_count = totalViolations(potentialNewGrid)
+            # Check if this placement is valid
+            if checkCoverage(potentialNewGrid):
+                # print("go")
+                if new_violation_count <= curr_violation_count:
+                    grid = [row[:] for row in potentialNewGrid]
+                    curr_violation_count = new_violation_count
+            #print(curr_violation_count) 
+            highViol = findHighestViolation(grid, checkedCells)
+            count = count+1
+            print(count)
+            i+=1
         
               
 
@@ -259,7 +259,7 @@ def main():
 
     
     # Write results to output
-    with open('output_group816.txt', 'w') as f:
+    with open('output_group819.txt', 'w') as f:
         f.write(str(finalTotalCount) + '\n')  # Convert the violation count to string
         for i in range(int(rows)):
             for j in range(int(cols)):
